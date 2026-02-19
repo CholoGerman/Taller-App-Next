@@ -1,123 +1,122 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
-import { useRouter } from "next/navigation";
-import LocalCard from "../../components/LocalCard";
-import { fetchWithParams } from "../../api/api";
+import { useState } from "react";
+const BASE_URL = "https://api-react-taller-production.up.railway.app";
+import Link from "next/link";
 
 export default function HomePage() {
-  const router = useRouter();
+  // Estados para los filtros
+  const [tipo, setTipo] = useState("");
+  const [precio, setPrecio] = useState("");
+  const [puntuacion, setPuntuacion] = useState("");
+  const [ciudad, setCiudad] = useState("");
 
+  // Estados para los resultados y carga
   const [locales, setLocales] = useState([]);
-  const [q, setQ] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [userName, setUserName] = useState("");
 
-  const debounceRef = useRef(null);
-
-  useEffect(() => {
-    // Chequear token en localStorage; si no hay token -> / (login)
-    const token = localStorage.getItem("token");
-    const storedUser = localStorage.getItem("user");
-    if (!token) {
-      router.push("/");
-      return;
-    }
-    if (storedUser) {
-      try {
-        const parsed = JSON.parse(storedUser);
-        setUserName(parsed.name || parsed.username || "");
-      } catch {
-        // ignore
-      }
-    }
-
-    // primera carga
-    fetchList(token, "");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  // buscar con debounce
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (debounceRef.current) clearTimeout(debounceRef.current);
-    debounceRef.current = setTimeout(() => {
-      fetchList(token, q);
-    }, 400);
-    return () => clearTimeout(debounceRef.current);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [q]);
-
-  const fetchList = async (token, query) => {
+  const handleBuscar = async () => {
     setLoading(true);
     setError("");
+
+    // Construir query string
+    const params = new URLSearchParams();
+    if (tipo) params.append("tipo", tipo);
+    if (precio) params.append("precio", precio);
+    if (puntuacion) params.append("puntuacion", puntuacion);
+    if (ciudad) params.append("ciudad", ciudad);
+
     try {
-      const params = { q: query || undefined }; // si q === "" no lo añade
-      const data = await fetchWithParams("/api/locals", params, token);
-      setLocales(Array.isArray(data) ? data : []);
+      const res = await fetch(`${BASE_URL}/api/locals?${params.toString()}`);
+      if (!res.ok) {
+        throw new Error("Error al cargar locales");
+      }
+      const data = await res.json();
+      setLocales(data);
     } catch (err) {
       console.error(err);
-      setError(err.error || "Error al cargar locales");
-      // si la API responde que token inválido, podés forzar logout:
-      // if (err.message === '...') logout();
+      setError("No se pudieron cargar los locales");
     } finally {
       setLoading(false);
     }
   };
 
-  const logout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    router.push("/");
-  };
-
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <header className="max-w-6xl mx-auto flex items-center justify-between mb-6">
-        <div>
-          <h1 className="text-3xl font-bold">Rutas del Sabor</h1>
-          {userName && <p className="text-sm text-gray-600">Hola, {userName}</p>}
-        </div>
+    <div className="container mx-auto p-4">
+      <h1 className="text-3xl font-bold mb-6">Locales Gastronómicos</h1>
 
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => router.push("/crear/local")}
-            className="bg-green-600 text-white px-3 py-1 rounded text-sm"
-          >
-            Nuevo local
-          </button>
+      {/* Filtros */}
+      <div className="bg-white p-4 rounded shadow mb-6 grid grid-cols-1 md:grid-cols-4 gap-4">
+        <select
+          value={tipo}
+          onChange={(e) => setTipo(e.target.value)}
+          className="border p-2 rounded"
+        >
+          <option value="">Todos los tipos</option>
+          <option value="restaurante">Restaurante</option>
+          <option value="cafeteria">Cafetería</option>
+          <option value="bar">Bar</option>
+          <option value="foodtruck">Food Truck</option>
+          <option value="otros">Otros</option>
+        </select>
 
-          <button
-            onClick={logout}
-            className="bg-red-500 text-white px-3 py-1 rounded text-sm"
-          >
-            Logout
-          </button>
-        </div>
-      </header>
+        <select
+          value={precio}
+          onChange={(e) => setPrecio(e.target.value)}
+          className="border p-2 rounded"
+        >
+          <option value="">Todos los precios</option>
+          <option value="economico">Económico</option>
+          <option value="medio">Medio</option>
+          <option value="alto">Alto</option>
+        </select>
 
-      <main className="max-w-6xl mx-auto">
-        <div className="mb-4">
-          <input
-            type="search"
-            placeholder="Buscar locales por nombre..."
-            value={q}
-            onChange={(e) => setQ(e.target.value)}
-            className="w-full md:w-1/2 p-2 border rounded"
-          />
-        </div>
+        <select
+          value={puntuacion}
+          onChange={(e) => setPuntuacion(e.target.value)}
+          className="border p-2 rounded"
+        >
+          <option value="">Todas las puntuaciones</option>
+          <option value="1">1 estrella</option>
+          <option value="2">2 estrellas</option>
+          <option value="3">3 estrellas</option>
+          <option value="4">4 estrellas</option>
+          <option value="5">5 estrellas</option>
+        </select>
 
-        {loading && <p>Cargando locales...</p>}
-        {error && <p className="text-red-500">{error}</p>}
+        <input
+          type="text"
+          placeholder="Ciudad"
+          value={ciudad}
+          onChange={(e) => setCiudad(e.target.value)}
+          className="border p-2 rounded"
+        />
+      </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {!loading && locales.length === 0 && <p>No hay locales para mostrar.</p>}
-          {locales.map((local) => (
-            <LocalCard key={local.id} local={local} />
-          ))}
-        </div>
-      </main>
+      {/* Botón de búsqueda */}
+      <div className="mb-6">
+        <button
+          onClick={handleBuscar}
+          className="bg-[#7747ff] text-white px-6 py-2 rounded hover:bg-[#6436e6] transition"
+        >
+          Buscar
+        </button>
+      </div>
+
+      {/* Resultados */}
+      {loading && <p className="text-center">Cargando locales...</p>}
+      {error && <p className="text-center text-red-500">{error}</p>}
+      {!loading && !error && locales.length === 0 && (
+        <p className="text-center">No hay locales con esos filtros.</p>
+      )}
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {locales.map((local) => (
+          <LocalCard key={local.id} local={local} />
+        ))}
+      </div>
     </div>
   );
 }
+

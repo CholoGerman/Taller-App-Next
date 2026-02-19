@@ -1,24 +1,23 @@
-export default function LocalCard({ local }) {
-  const name = local.name ?? local.nombre ?? "Sin nombre";
-  const type = local.type ?? local.tipo ?? "—";
-  const city = local.city ?? local.ciudad ?? local.zone ?? local.zona ?? "—";
-  const price = local.priceRange ?? local.rangoPrecio ?? "—";
-  const rating = local.rating ?? local.puntuacion ?? "—";
-
+function LocalCard({ local }) {
   return (
-    <article className="bg-white p-4 rounded shadow hover:shadow-lg transition">
-      <h3 className="text-lg font-semibold mb-1">{name}</h3>
-      <p className="text-sm text-gray-500 mb-1">{type} · {city}</p>
-      <p className="text-sm">Precio: {price}</p>
-      <p className="text-sm">Rating: {rating}</p>
-      <div className="mt-3">
-        <a
+    <div className="border rounded-lg overflow-hidden shadow hover:shadow-lg transition">
+      <div className="p-4">
+        <h2 className="text-xl font-semibold">{local.nombre}</h2>
+        <p className="text-gray-600">
+          {local.tipo} - {local.ciudad}
+        </p>
+        <p className="text-sm mt-2 line-clamp-2">{local.descripcion}</p>
+        <div className="flex justify-between items-center mt-4">
+          <span className="text-yellow-500">★ {local.puntuacion}</span>
+          <span className="text-gray-500">{local.rangoPrecio}</span>
+        </div>
+        <Link
           href={`/locales/${local.id}`}
-          className="text-blue-600 hover:underline text-sm"
+          className="mt-2 inline-block text-blue-500 hover:underline"
         >
           Ver detalle
-        </a>
+        </Link>
       </div>
-    </article>
+    </div>
   );
 }
