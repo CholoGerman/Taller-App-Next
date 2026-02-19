@@ -35,4 +35,21 @@ const login = async (username, password) => {
   // return data;
 };
 
-export { register, login };
+const fetchWithParams = async (path, params = {}) => {
+  
+  const qp = new URLSearchParams();
+  Object.entries(params).forEach(([k, v]) => {
+    if (v !== undefined && v !== null && v !== "") qp.append(k, v);
+  });
+  const url = `${BASE}${path}${qp.toString() ? `?${qp.toString()}` : ""}`;
+  const res = await fetch(url);
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw err;
+  }
+  return res.json();
+}
+
+
+
+export { register, login, fetchWithParams };
