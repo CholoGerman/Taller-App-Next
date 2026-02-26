@@ -9,6 +9,9 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@headlessui/react": "^2.2.9",
+    "@heroicons/react": "^2.2.0",
+    "@material-tailwind/react": "^3.0.0-beta.24",
     "bootstrap": "^5.3.8",
     "next": "16.1.6",
     "react": "19.2.3",
