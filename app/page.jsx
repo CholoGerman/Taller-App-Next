@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { login as apiLogin } from "../api/api"; // ruta desde app/page.jsx -> ../api/api
+import { login as apiLogin } from "../api/api"; 
 
 export default function LoginPage() {
   const router = useRouter();
@@ -22,7 +22,6 @@ export default function LoginPage() {
     try {
       setLoading(true);
       const data = await apiLogin(username, password);
-      // data = { user: {...}, token: '...' }
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user || {}));
       setMensaje("Login exitoso");

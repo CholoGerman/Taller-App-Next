@@ -2,31 +2,27 @@
 
 import { useEffect, useState } from "react";
 import { getDishes } from "../api/api";
+import BusquedaPlatos from "./BusquedaPlatos";
+import PlatoCard from "./PlatoCard";
 import Link from "next/link";
 
-
-
 const ListadoPlatos = () => {
-
-    const [user, setUser] = useState(null);
-    const [token, setToken] = useState(null);
     const [dishes, setDishes] = useState([]);
-
-    useEffect(() => {
-        const u = JSON.parse(localStorage.getItem("user"));
-        setUser(u);
-        const t = localStorage.getItem("token");
-        setToken(t);
-    }, []);
+    const [query, setQuery] = useState("");
+    const [category, setCategory] = useState("");
+    const [dateFrom, setDateFrom] = useState("");
+    const [dateTo, setDateTo] = useState("");
+    const [city, setCity] = useState("");
+    const [localId, setLocalId] = useState("");
 
     useEffect(() => {
         const fetchDishes = async () => {
-            const data = await getDishes();
+            const data = await getDishes(query, category, dateFrom, dateTo, city, localId);
             console.log("dishes:", data.items);
-            setDishes(data.items);
+            setDishes(data.items || []);
         };
         fetchDishes();
-    }, []);
+    }, [query, category, dateFrom, dateTo, city, localId]);
 
     return (
         <div className="bg-white" id="ListadoPlatos">
@@ -35,28 +31,20 @@ const ListadoPlatos = () => {
                     Listado de Platos
                 </h2>
 
+                <BusquedaPlatos
+                    setQ={setQuery}
+                    setCategory={setCategory}
+                    setDateFrom={setDateFrom}
+                    setDateTo={setDateTo}
+                    setCity={setCity}
+                    setLocalId={setLocalId}
+                />
+
                 <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
                     {dishes.map((dish) => (
-                        <div key={dish.id} className="group relative">
-                            <img
-                                src={dish.photos?.[0] || "https://via.placeholder.com/300"}
-                                alt={dish.name}
-                                className="aspect-square w-full rounded-md bg-gray-200 object-cover group-hover:opacity-75 lg:aspect-auto lg:h-80"
-                            />
-                            <div className="mt-4 flex justify-between">
-                                <div>
-                                    <h3 className="text-sm text-gray-700">
-                                        <Link href={`/platos/${dish.id}`}>
-                                            <span aria-hidden="true" className="absolute inset-0"></span>
-                                            {dish.name}
-                                        </Link>
-                                    </h3>
-                                    <p className="mt-1 text-sm text-gray-500">{dish.category}</p>
-                                    <p className="mt-1 text-sm text-gray-500">{dish.city}</p>
-                                </div>
-                                <p className="text-sm font-medium text-gray-900">${dish.price}</p>
-                            </div>
-                        </div>
+                        <Link key={dish.id} href={`/VerPlato/${dish.id}`}>
+                  <PlatoCard dish={dish} />
+                </Link>
                     ))}
                 </div>
             </div>
