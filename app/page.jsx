@@ -23,7 +23,7 @@ export default function LoginPage() {
       setLoading(true);
       const data = await apiLogin(username, password);
       localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user || {}));
+      localStorage.setItem("user", JSON.stringify(data.user));
       setMensaje("Login exitoso");
       router.push("/home");
     } catch (err) {

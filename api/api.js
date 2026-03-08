@@ -39,27 +39,25 @@ const getLocals = async (q = "", type = "", priceRange = "", rating = "", city =
 
 }
 
-const getDishes = async (q = "", category = "", dateFrom = "", dateTo = "", city = "") => {
-    const data = await fetch(`${BASE_URL}/api/dishes?q=${q}&category=${category}&dateFrom=${dateFrom}&dateTo=${dateTo}&city=${city}`).then(res => res.json());
-
+const getDishes = async (q = "", category = "",  localId = "", dateFrom = "", dateTo = "", city = "") => {
+    const data = await fetch(`${BASE_URL}/api/dishes?q=${q}&category=${category}&localId=${localId}&dateFrom=${dateFrom}&dateTo=${dateTo}&city=${city}`).then(res => res.json());
     return data;
-}
+};
 
 
-const postLocal = async (name, type, priceRange, city, zone, address, hours, photos) => {
-    const response = await fetch(`${BASE_URL}/api/locals`, {
+const postLocal = async (name, type, priceRange , city, zone, address , hours , photos) =>{
+    const response = await fetch(`${BASE_URL}/api/locals`,{
         method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${localStorage.getItem("token")}`
+        headers:{"Content-Type" : "application/json",
+            "Authorization" : `Bearer ${localStorage.getItem("token")}`
         },
-        body: JSON.stringify({ name, type, priceRange, city, zone, address, hours, photos })
+        body: JSON.stringify({name, type, priceRange , city, zone, address , hours , photos})
     });
 
     const data = await response.json();
 
     console.log("Informacion del Local Creado", data);
-    return data;
+
 }
 
 export const postDish = async (dishData) => {
@@ -138,13 +136,13 @@ const postReviewDish = async (id, rating, comment) => {
 
 
 const getUser = async (id) => {
-
-    const response = await fetch(`${BASE_URL}/api/users/${id}`)
-
+    const token = localStorage.getItem("token");
+    const response = await fetch(`${BASE_URL}/api/users/${id}`, {
+        headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+    });
     const data = await response.json();
-
     return data;
-}
+};
 
 
 

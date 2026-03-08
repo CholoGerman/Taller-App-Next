@@ -2,7 +2,7 @@
 
 import DetallesLocal from "../../../components/DetallesLocal";
 import Header from "../../../components/Header";
-
+import Footer from "../../../components/Footer";
 
 const VerLocal = () => {
    
@@ -10,7 +10,7 @@ const VerLocal = () => {
     <>
     <Header/>
     <DetallesLocal />
- 
+    <Footer />
     </>
   )
 

@@ -2,7 +2,7 @@
 import { useEffect , useState } from "react";
 import { useParams } from "next/navigation";
 import { getLocal } from "../api/api";
-import { CloudArrowUpIcon, LockClosedIcon, ServerIcon } from '@heroicons/react/20/solid'
+import { MapPinIcon, MapIcon, BuildingStorefrontIcon, ClockIcon } from '@heroicons/react/20/solid'
 import { Rating } from "@material-tailwind/react";
 import RestaurantRating from "../components/RestaurantRating";
 import Link from "next/link";
@@ -18,17 +18,22 @@ const DetallesLocal = () => {
   {
     name: 'Ciudad.',
     description: local.city,
-    icon: CloudArrowUpIcon,
+    icon: MapPinIcon,
   },
   {
     name: 'Zona.',
     description: local.zone,
-    icon: LockClosedIcon,
+    icon: MapIcon,
   },
   {
     name: 'Direccion.',
     description: local.address,
-    icon: ServerIcon,
+    icon: BuildingStorefrontIcon,
+  },
+    {
+    name: 'Horarios.',
+    description: local.hours,
+    icon: ClockIcon,
   },
 ]
 
@@ -57,6 +62,9 @@ const DetallesLocal = () => {
               <p className="mt-6 text-lg/8 text-gray-700">
                 {local.description}
               </p>
+                <p className="mt-6 text-lg/8 text-gray-700">
+                {local.hours}
+              </p>
               <dl className="mt-10 max-w-xl space-y-8 text-base/7 text-gray-600 lg:max-w-none">
                 {features.map((feature) => (
                   <div key={feature.name} className="relative pl-9">
@@ -67,7 +75,12 @@ const DetallesLocal = () => {
                     <dd className="inline">{feature.description}</dd>
                   </div>
                 ))}
-               <Link href={`/perfil/${local.creatorId}`}>{local.creator?.name}</Link>
+              <Link 
+  href={`/perfil/${local.creatorId}`} 
+  className="text-blue-600 hover:text-blue-800"
+>
+  {local.creator?.name}
+</Link>
               </dl>
             </div>
           </div>

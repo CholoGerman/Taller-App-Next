@@ -71,12 +71,15 @@ const BusquedaPlatos = ({ setQ, setCategory, setDateFrom, setDateTo, setCity, se
 
         <div>
           <label htmlFor="localId" className="block text-sm font-medium text-gray-700 mb-1">
-            Local 
+            Local
           </label>
           <select
             id="localId"
             name="localId"
-            onChange={(e) => setLocalId(e.target.value)}
+            onChange={(e) => {
+              console.log('Valor seleccionado:', e.target.value);
+              setLocalId(e.target.value);
+            }}
             className="block w-full rounded-md bg-white px-3.5 py-2 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600"
           >
             <option value="">Todos los locales</option>

@@ -7,7 +7,7 @@ import Button from './Button';
 const AltaLocal = () => {
     const [name , setName] = useState("");
     const [type , setType] = useState("");
-    const [priceRagne , setPriceRange] = useState("");
+    const [priceRange , setPriceRange] = useState("");
     const [city , setCity] = useState("");
     const [zone , setZone] = useState("");
     const [address , setAddress] = useState("");
@@ -23,8 +23,8 @@ const AltaLocal = () => {
 
     const handleSubmit = async (e) =>{
         e.preventDefault();
-        await postLocal(name,type,priceRagne,city, zone, address , hours , photos); 
-        console.log("Local creado exitosamente");
+        await postLocal(name,type,priceRange,city, zone, address , hours , photos); 
+     
         // Reiniciar el formulario
         setName("");
         setType("");
@@ -33,6 +33,7 @@ const AltaLocal = () => {
         setZone("");
         setAddress("");
         setHours("");
+        setPhoto("");
         setPhotos([]);
     }
 

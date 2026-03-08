@@ -23,7 +23,6 @@ export default function Header() {
         aria-label="Global"
         className="max-w-7xl mx-auto flex items-center justify-between p-4 md:p-6 lg:px-10"
       >
-        {/* Logo */}
         <div className="flex items-center gap-3">
           <Link href="/home" aria-label="Rutas del Sabor - Home" className="-m-1.5 p-1.5 flex items-center gap-3">
               <Image
