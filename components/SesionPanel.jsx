@@ -1,7 +1,6 @@
 'use client';
 import { useState , useEffect } from "react";
 import {useRouter} from 'next/navigation';
-import Link from "next/link";
 
 export default function SesionPanel() {
     const [user , setUser] = useState(null);
@@ -18,18 +17,22 @@ export default function SesionPanel() {
     }
 
   return (
-    <ul role="list" className="grid gap-x-8 gap-y-12 sm:grid-cols-2 sm:gap-y-16 xl:col-span-2">
-      <li>
-        <Link href={`/perfil/${user?.id}`}>
-          <div className="flex items-center gap-x-6 cursor-pointer">
-            <img
-              alt="imagen de perfil"
-              src="https://cdn-icons-png.flaticon.com/512/9131/9131478.png"
-              className="size-16 rounded-full outline-1 -outline-offset-1 outline-black/5"
-            />
-          </div>
-        </Link>
-      </li>
-    </ul>
+     <ul role="list" className="grid gap-x-8 gap-y-12 sm:grid-cols-2 sm:gap-y-16 xl:col-span-2">
+            <li onClick={handleClick}>
+              <div className="flex items-center gap-x-6">
+{/*                 
+                <div>
+                  <h3 className="text-base/7 font-semibold tracking-tight text-gray-900">{user?.username}</h3>
+                  <p className="text-sm/6 font-semibold text-indigo-600">{user?.user}</p>
+                </div> */}
+
+                <img
+                  alt="imagen de perfil"
+                  src={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFv_rUJ2Ru3GR0Jxy2YTNH_jrVzX3_HY-THQ&s"}
+                  className="size-16 rounded-full outline-1 -outline-offset-1 outline-black/5"
+                />
+              </div>
+            </li>
+        </ul>
   )
 }

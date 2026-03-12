@@ -13,25 +13,27 @@ export default function RegisterPage() {
   const [mensaje, setMensaje] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleRegister = async (e) => {
-    e.preventDefault();
-    setMensaje("");
-    if (!name || !username || !password) {
-      setMensaje("Todos los campos son obligatorios");
-      return;
-    }
-    try {
-      setLoading(true);
-      await register(username, password, name);
-      setMensaje("Registrado correctamente. Ahora inicia sesión.");
-      router.push("/");
-    } catch (err) {
-      console.error(err);
-      setMensaje(err?.error || err?.message || "Error en el registro");
-    } finally {
-      setLoading(false);
-    }
-  };
+const handleRegister = async (e) => {
+  e.preventDefault();
+  setMensaje("");
+  if (!name || !username || !password) {
+    setMensaje("Todos los campos son obligatorios");
+    return;
+  }
+  try {
+    setLoading(true);
+    const data = await register(username, name, password);
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("user", JSON.stringify(data.user));
+    setMensaje("Registrado correctamente");
+    router.push("/");
+  } catch (err) {
+    console.error(err);
+    setMensaje(err.message || "Error en el registro");
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">

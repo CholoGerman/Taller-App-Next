@@ -20,10 +20,10 @@ const ListadoPrincipal = () => {
     const [zone, setZone] = useState("");
 
     useEffect(() => {
-        const u = JSON.parse(localStorage.getItem("user"));
-        setUser(u);
-        const t = localStorage.getItem("token")
-        setToken(t);
+        const user = JSON.parse(localStorage.getItem("user"));
+        setUser(user);
+        const token = localStorage.getItem("token");
+        setToken(token);
     }, [])
 
 

@@ -1,35 +1,42 @@
 const BASE_URL = "https://api-react-taller-production.up.railway.app";
 
 const register = async (username, name, password) => {
+  const response = await fetch(`${BASE_URL}/api/auth/register`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username, name, password })
+  });
 
-    const response = await fetch(`${BASE_URL}/api/auth/register`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", },
-        body: JSON.stringify({ username, name, password })
-    });
+  const data = await response.json();
 
-    const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data.error || "Error en el registro");
+  }
 
-    console.log("Informacion de Registro", data);
-}
+  console.log("Informacion de Registro", data);
+  return data; 
+};
 
 
 
 const login = async (username, password) => {
-    const response = await fetch(`${BASE_URL}/api/auth/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password })
-    });
+  const response = await fetch(`${BASE_URL}/api/auth/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username, password })
+  });
 
-    const data = await response.json();
+  const data = await response.json();
 
-    localStorage.setItem("token", data.token);
-    localStorage.setItem("user", JSON.stringify(data.user));
+  if (!response.ok) {
+    throw new Error(data.error || "Credenciales incorrectas");
+  }
 
-    return data;
+  localStorage.setItem("token", data.token);
+  localStorage.setItem("user", JSON.stringify(data.user));
 
-}
+  return data;
+};
 
 
 const getLocals = async (q = "", type = "", priceRange = "", rating = "", city = "", zone = "") => {
@@ -136,13 +143,17 @@ const postReviewDish = async (id, rating, comment) => {
 
 
 const getUser = async (id) => {
-    const token = localStorage.getItem("token");
-    const response = await fetch(`${BASE_URL}/api/users/${id}`, {
-        headers: token ? { 'Authorization': `Bearer ${token}` } : {}
-    });
-    const data = await response.json();
+
+    const response = await fetch(`${BASE_URL}/api/users/${id}`)
+
+   
+    if(!response.ok){
+        throw new Error("Error en getUser");
+    }
+        
+        const data = await response.json();
     return data;
-};
+}
 
 
 
