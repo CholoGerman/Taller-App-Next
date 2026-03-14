@@ -2,9 +2,15 @@
 
 import { useState , useEffect} from 'react';
 import {postLocal} from '../api/api';
+import { useRouter } from "next/navigation";
 import Button from './Button';
 
 const AltaLocal = () => {
+    const router = useRouter();
+    const [user, setUser] = useState(null);
+    const [token, setToken] = useState("");
+
+
     const [name , setName] = useState("");
     const [type , setType] = useState("");
     const [priceRange , setPriceRange] = useState("");
@@ -14,6 +20,20 @@ const AltaLocal = () => {
     const [hours , setHours] = useState("");
     const [photo , setPhoto] = useState("");
     const [photos , setPhotos] = useState([]);
+
+
+    useEffect(() => {
+        const u = localStorage.getItem("user");
+        if(u){
+        setUser(JSON.parse(u));
+        const t = localStorage.getItem("token")
+        setToken(t);
+      }else{
+        router.push("/");
+      }
+    },[])
+
+
 
     const handleClick = (e) => {
         e.preventDefault();

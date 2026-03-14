@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { postReview } from "../api/api";
+import TarjetaRating from "./TarjetaRating"; // Ajusta la ruta según tu estructura
 
-export default function RestaurantRating({ id ,name , setRefresh }) {
+export default function RestaurantRating({ id, name, setRefresh }) {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
   const [hover, setHover] = useState(0);
@@ -16,21 +17,18 @@ export default function RestaurantRating({ id ,name , setRefresh }) {
   };
 
   const handleSubmit = async () => {
-    if (rating > 0){
-
-        await postReview(id , rating , comment);
-
-      setSubmitted(true);  
-      setRefresh(true)
-    } 
+    if (rating > 0) {
+      await postReview(id, rating, comment);
+      setSubmitted(true);
+      setRefresh(true);
+    }
   };
-
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-lg p-8 w-full max-w-sm text-center">
+      <TarjetaRating>
         <h2 className="text-2xl font-bold text-gray-800">{name}</h2>
-        <p className="text-gray-400 text-sm mb-6">¿Cómo fue tu experiencia?</p>
+        <p className="text-gray-600 text-sm mb-6">¿Cómo fue tu experiencia?</p>
 
         {!submitted ? (
           <>
@@ -65,7 +63,7 @@ export default function RestaurantRating({ id ,name , setRefresh }) {
               onChange={(e) => setComment(e.target.value)}
               placeholder="Dejá un comentario (opcional)..."
               rows={3}
-              className="w-full rounded-xl border border-gray-200 p-3 text-sm text-gray-700 resize-none focus:outline-none focus:ring-2 focus:ring-amber-300 mb-4"
+              className="w-full rounded-xl border border-gray-200 bg-white p-3 text-sm text-gray-700 resize-none focus:outline-none focus:ring-2 focus:ring-amber-300 mb-4"
             />
             <button
               onClick={handleSubmit}
@@ -89,7 +87,7 @@ export default function RestaurantRating({ id ,name , setRefresh }) {
             </h3>
           </div>
         )}
-      </div>
+      </TarjetaRating>
     </div>
   );
 }

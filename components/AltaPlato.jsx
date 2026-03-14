@@ -2,9 +2,15 @@
 
 import { useState, useEffect } from 'react';
 import { postDish, getLocals } from '../api/api';
+import { useRouter } from "next/navigation";
 import Button from './Button';
 
 const AltaPlato = () => {
+      const router = useRouter();
+    const [user, setUser] = useState(null);
+    const [token, setToken] = useState("");
+
+
     const [name, setName] = useState('');
     const [category, setCategory] = useState('');
     const [localId, setLocalId] = useState('');
@@ -15,6 +21,20 @@ const AltaPlato = () => {
     const [locals, setLocals] = useState([]);
     const [message, setMessage] = useState('');
 
+
+    useEffect(() => {
+        const u = localStorage.getItem("user");
+        if (u) {
+            setUser(JSON.parse(u));
+            const t = localStorage.getItem("token")
+            setToken(t);
+        } else {
+            router.push("/");
+        }
+    }, [])
+
+
+
     useEffect(() => {
         const fetchLocals = async () => {
             const data = await getLocals();
@@ -24,31 +44,31 @@ const AltaPlato = () => {
     }, []);
 
     const handleSubmit = async (e) => {
-    e.preventDefault();
+        e.preventDefault();
 
-    const result = await postDish({
-        name,
-        category,
-        localId: parseInt(localId),
-        city,
-        price: parseFloat(price),
-        description
-    });
+        const result = await postDish({
+            name,
+            category,
+            localId: parseInt(localId),
+            city,
+            price: parseFloat(price),
+            description
+        });
 
-    if (result.error) {
-        console.log(result.error);
-        return;
-    }
+        if (result.error) {
+            console.log(result.error);
+            return;
+        }
 
-    console.log("Plato creado exitosamente");
-// Reiniciar el formulario
-    setName("");
-    setCategory("");
-    setLocalId("");
-    setCity("");
-    setPrice("");
-    setDescription("");
-};
+        console.log("Plato creado exitosamente");
+        // Reiniciar el formulario
+        setName("");
+        setCategory("");
+        setLocalId("");
+        setCity("");
+        setPrice("");
+        setDescription("");
+    };
 
     return (
         <div className="isolate bg-white px-6 py-24 sm:py-32 lg:px-8">
@@ -178,12 +198,12 @@ const AltaPlato = () => {
                 </div>
 
                 <div className="mt-10 flex items-center justify-center gap-x-6">
-                    <Button 
-                onClick={handleSubmit}
-                type="submit"
-            >
-                Crear Plato
-            </Button>
+                    <Button
+                        onClick={handleSubmit}
+                        type="submit"
+                    >
+                        Crear Plato
+                    </Button>
                 </div>
             </form>
         </div>

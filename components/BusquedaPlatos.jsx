@@ -1,10 +1,21 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { getLocals } from '../api/api';
+import Input from './input';
+import Select from './Select'; 
 
 const BusquedaPlatos = ({ setQ, setCategory, setDateFrom, setDateTo, setCity, setLocalId }) => {
   const [locals, setLocals] = useState([]);
 
+  // Estados locales temporales
+  const [localQ, setLocalQ] = useState('');
+  const [localCategory, setLocalCategory] = useState('');
+  const [localDateFrom, setLocalDateFrom] = useState('');
+  const [localDateTo, setLocalDateTo] = useState('');
+  const [localCity, setLocalCity] = useState('');
+  const [localLocalId, setLocalLocalId] = useState('');
+
+  // Cargar locales para el select
   useEffect(() => {
     const fetchLocals = async () => {
       try {
@@ -17,32 +28,50 @@ const BusquedaPlatos = ({ setQ, setCategory, setDateFrom, setDateTo, setCity, se
     fetchLocals();
   }, []);
 
+  // Aplica los filtros al padre
+  const handleApply = () => {
+    setQ(localQ);
+    setCategory(localCategory);
+    setDateFrom(localDateFrom);
+    setDateTo(localDateTo);
+    setCity(localCity);
+    setLocalId(localLocalId);
+  };
+
+  // Limpia todos los filtros
+  const handleClear = () => {
+    setLocalQ('');
+    setLocalCategory('');
+    setLocalDateFrom('');
+    setLocalDateTo('');
+    setLocalCity('');
+    setLocalLocalId('');
+
+    setQ('');
+    setCategory('');
+    setDateFrom('');
+    setDateTo('');
+    setCity('');
+    setLocalId('');
+  };
+
   return (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
-        <div>
-          <label htmlFor="q" className="block text-sm font-medium text-gray-700 mb-1">
-            Nombre del plato
-          </label>
-          <input
-            id="q"
+    <div className="bg-white/80 dark:bg-slate-800/70 rounded-lg shadow-sm p-6">
+      <form className="space-y-6">
+        <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100">Filtrar platos</h3>
+
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <Input
+            label="Nombre del plato"
             name="q"
             type="text"
-            placeholder="Ej: Bife, Pizza..."
-            onChange={(e) => setQ(e.target.value)}
-            className="block w-full rounded-md bg-white px-3.5 py-2 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600"
+            value={localQ}
+            onChange={(e) => setLocalQ(e.target.value)}
           />
-        </div>
-
-        <div>
-          <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-1">
-            Categoría
-          </label>
-          <select
-            id="category"
+          <Select
             name="category"
-            onChange={(e) => setCategory(e.target.value)}
-            className="block w-full rounded-md bg-white px-3.5 py-2 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600"
+            value={localCategory}
+            onChange={(e) => setLocalCategory(e.target.value)}
           >
             <option value="">Todas las categorías</option>
             <option value="entrada">Entrada</option>
@@ -50,37 +79,21 @@ const BusquedaPlatos = ({ setQ, setCategory, setDateFrom, setDateTo, setCity, se
             <option value="postre">Postre</option>
             <option value="bebida">Bebida</option>
             <option value="otros">Otros</option>
-          </select>
+          </Select>
         </div>
-      </div>
 
-      <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
-        <div>
-          <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-1">
-            Ciudad
-          </label>
-          <input
-            id="city"
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <Input
+            label="Ciudad"
             name="city"
             type="text"
-            placeholder="Ej: Montevideo"
-            onChange={(e) => setCity(e.target.value)}
-            className="block w-full rounded-md bg-white px-3.5 py-2 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600"
+            value={localCity}
+            onChange={(e) => setLocalCity(e.target.value)}
           />
-        </div>
-
-        <div>
-          <label htmlFor="localId" className="block text-sm font-medium text-gray-700 mb-1">
-            Local
-          </label>
-          <select
-            id="localId"
+          <Select
             name="localId"
-            onChange={(e) => {
-              console.log('Valor seleccionado:', e.target.value);
-              setLocalId(e.target.value);
-            }}
-            className="block w-full rounded-md bg-white px-3.5 py-2 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600"
+            value={localLocalId}
+            onChange={(e) => setLocalLocalId(e.target.value)}
           >
             <option value="">Todos los locales</option>
             {locals.map((local) => (
@@ -88,40 +101,55 @@ const BusquedaPlatos = ({ setQ, setCategory, setDateFrom, setDateTo, setCity, se
                 {local.name} - {local.city}
               </option>
             ))}
-          </select>
+          </Select>
         </div>
-      </div>
 
-      <div>
-        <h3 className="text-sm font-medium text-gray-700 mb-2">Fecha de publicación</h3>
-        <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
-          <div>
-            <label htmlFor="dateFrom" className="block text-xs text-gray-500 mb-1">
-              Desde
-            </label>
-            <input
-              id="dateFrom"
-              name="dateFrom"
-              type="date"
-              onChange={(e) => setDateFrom(e.target.value)}
-              className="block w-full rounded-md bg-white px-3.5 py-2 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600"
-            />
-          </div>
-
-          <div>
-            <label htmlFor="dateTo" className="block text-xs text-gray-500 mb-1">
-              Hasta
-            </label>
-            <input
-              id="dateTo"
-              name="dateTo"
-              type="date"
-              onChange={(e) => setDateTo(e.target.value)}
-              className="block w-full rounded-md bg-white px-3.5 py-2 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600"
-            />
+        <div>
+          <h4 className="text-sm font-medium text-gray-700 mb-3">Fecha de publicación</h4>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div>
+              <label htmlFor="dateFrom" className="block text-xs text-gray-500 mb-1">Desde</label>
+              <input
+                id="dateFrom"
+                type="date"
+                value={localDateFrom}
+                onChange={(e) => setLocalDateFrom(e.target.value)}
+                className="block w-full rounded-md border border-gray-200 bg-white px-3.5 py-2 text-sm text-gray-800 shadow-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+              />
+            </div>
+            <div>
+              <label htmlFor="dateTo" className="block text-xs text-gray-500 mb-1">Hasta</label>
+              <input
+                id="dateTo"
+                type="date"
+                value={localDateTo}
+                onChange={(e) => setLocalDateTo(e.target.value)}
+                className="block w-full rounded-md border border-gray-200 bg-white px-3.5 py-2 text-sm text-gray-800 shadow-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+              />
+            </div>
           </div>
         </div>
-      </div>
+
+        <div className="flex items-center justify-between gap-3 pt-3 border-t border-gray-100">
+          <button
+            type="button"
+            onClick={handleClear}
+            className="inline-flex items-center gap-2 rounded-md border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 active:scale-95 transition"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7L5 21M5 7l14 14" />
+            </svg>
+            Limpiar filtros
+          </button>
+          <button
+            type="button"
+            onClick={handleApply}
+            className="inline-flex items-center gap-2 rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 active:scale-95 transition"
+          >
+            Aplicar filtros
+          </button>
+        </div>
+      </form>
     </div>
   );
 };

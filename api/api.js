@@ -46,8 +46,8 @@ const getLocals = async (q = "", type = "", priceRange = "", rating = "", city =
 
 }
 
-const getDishes = async (q = "", category = "",  localId = "", dateFrom = "", dateTo = "", city = "") => {
-    const data = await fetch(`${BASE_URL}/api/dishes?q=${q}&category=${category}&localId=${localId}&dateFrom=${dateFrom}&dateTo=${dateTo}&city=${city}`).then(res => res.json());
+const getDishes = async (q = "", category = "", dateFrom = "", dateTo = "", city = "",  localId = "") => {
+    const data = await fetch(`${BASE_URL}/api/dishes?q=${q}&category=${category}&dateFrom=${dateFrom}&dateTo=${dateTo}&city=${city}&localId=${localId}`).then(res => res.json());
     return data;
 };
 

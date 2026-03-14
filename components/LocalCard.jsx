@@ -4,10 +4,10 @@ import Link from "next/link";
 const LocalCard = ({ local }) => {
   const image =
     local.photos?.[0] ||
-    "https://img.freepik.com/vector-gratis/apoye-concepto-negocio-local_23-2148592675.jpg?semt=ais_user_personalization&w=740&q=80";
+    "https://aramar.com/wp-content/uploads/2017/05/aramar-suministros-para-el-vidrio-cristal-sin-imagen-disponible.jpg";
 
   return (
-    <div className="group relative flex flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md hover:shadow-lg transition-shadow">
+    <div className="group relative flex flex-col rounded-xl bg-clip-border text-gray-700 shadow-md hover:shadow-lg transition-shadow">
       <div className="relative mx-4 -mt-6 h-48 overflow-hidden rounded-xl bg-gray-200">
         <img
           src={image}

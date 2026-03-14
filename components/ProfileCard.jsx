@@ -9,7 +9,7 @@ const ProfileCard = ({ user, image }) => {
       <div className="w-28 h-28 mt-8 rounded-full border-4 border-slate-50 z-10 group-hover:scale-150 group-hover:-translate-x-24 group-hover:-translate-y-20 transition-all duration-500 overflow-hidden bg-blue-700 flex items-center justify-center">
         {profileImage ? (
        <img 
-  src={profileImage || "https://cdn-icons-png.flaticon.com/512/9131/9131478.png"}
+  src={profileImage || "https://cdn-icons-png.flaticon.com/512/6861/6861326.png"}
   alt={user?.name || 'Avatar'}
   className="w-full h-full object-cover"
 />
@@ -24,7 +24,7 @@ const ProfileCard = ({ user, image }) => {
       </div>
       
       <a className="bg-blue-700 px-4 py-1 text-slate-50 rounded-md z-10 hover:scale-125 transition-all duration-500 hover:bg-blue-500" href="#">
-        Follow
+        Seguir
       </a>
     </div>
   );

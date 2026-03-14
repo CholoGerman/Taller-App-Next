@@ -43,7 +43,7 @@ export default function PerfilComponent() {
           <div className="flex justify-center">
             <ProfileCard
               user={user}
-              image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFv_rUJ2Ru3GR0Jxy2YTNH_jrVzX3_HY-THQ&s"
+              image="https://cdn-icons-png.flaticon.com/512/6861/6861326.png"
             />
           </div>
           <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
