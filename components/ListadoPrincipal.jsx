@@ -23,16 +23,7 @@ const ListadoPrincipal = () => {
     const [city, setCity] = useState("");
     const [zone, setZone] = useState("");
 
-    useEffect(() => {
-        const u = localStorage.getItem("user");
-        if (u) {
-            setUser(JSON.parse(u));
-            const t = localStorage.getItem("token")
-            setToken(t);
-        } else {
-            router.push("/");
-        }
-    }, []);
+
 
 
     useEffect(() => {
@@ -53,7 +44,20 @@ const ListadoPrincipal = () => {
 
     return (<div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8" id="ListadoLocales">
         <h2 className="text-2xl font-bold tracking-tight text-gray-900">Listado de Locales</h2>
-        <Busqueda setQuery={setQuery} setType={setType} setPriceRange={setPriceRange} setRating={setRating} setCity={setCity} setZone={setZone} />
+        <Busqueda
+            query={query}
+            setQuery={setQuery}
+            type={type}
+            setType={setType}
+            priceRange={priceRange}
+            setPriceRange={setPriceRange}
+            rating={rating}
+            setRating={setRating}
+            city={city}
+            setCity={setCity}
+            zone={zone}
+            setZone={setZone}
+        />
         <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
             {locals.map((local) => (
                 <LocalCard key={local.id} local={local} />

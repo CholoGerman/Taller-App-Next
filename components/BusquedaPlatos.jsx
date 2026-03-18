@@ -2,20 +2,40 @@
 import { useState, useEffect } from 'react';
 import { getLocals } from '../api/api';
 import Input from './input';
-import Select from './Select'; 
+import Select from './Select';
 
-const BusquedaPlatos = ({ setQ, setCategory, setDateFrom, setDateTo, setCity, setLocalId }) => {
+const BusquedaPlatos = ({
+  q,
+  setQ,
+  category,
+  setCategory,
+  dateFrom,
+  setDateFrom,
+  dateTo,
+  setDateTo,
+  city,
+  setCity,
+  localId,
+  setLocalId
+}) => {
   const [locals, setLocals] = useState([]);
 
-  // Estados locales temporales
-  const [localQ, setLocalQ] = useState('');
-  const [localCategory, setLocalCategory] = useState('');
-  const [localDateFrom, setLocalDateFrom] = useState('');
-  const [localDateTo, setLocalDateTo] = useState('');
-  const [localCity, setLocalCity] = useState('');
-  const [localLocalId, setLocalLocalId] = useState('');
+  const [localQ, setLocalQ] = useState(q || '');
+  const [localCategory, setLocalCategory] = useState(category || '');
+  const [localDateFrom, setLocalDateFrom] = useState(dateFrom || '');
+  const [localDateTo, setLocalDateTo] = useState(dateTo || '');
+  const [localCity, setLocalCity] = useState(city || '');
+  const [localLocalId, setLocalLocalId] = useState(localId || '');
 
-  // Cargar locales para el select
+  useEffect(() => {
+    setLocalQ(q || '');
+    setLocalCategory(category || '');
+    setLocalDateFrom(dateFrom || '');
+    setLocalDateTo(dateTo || '');
+    setLocalCity(city || '');
+    setLocalLocalId(localId || '');
+  }, [q, category, dateFrom, dateTo, city, localId]);
+
   useEffect(() => {
     const fetchLocals = async () => {
       try {
@@ -28,7 +48,6 @@ const BusquedaPlatos = ({ setQ, setCategory, setDateFrom, setDateTo, setCity, se
     fetchLocals();
   }, []);
 
-  // Aplica los filtros al padre
   const handleApply = () => {
     setQ(localQ);
     setCategory(localCategory);
@@ -38,7 +57,6 @@ const BusquedaPlatos = ({ setQ, setCategory, setDateFrom, setDateTo, setCity, se
     setLocalId(localLocalId);
   };
 
-  // Limpia todos los filtros
   const handleClear = () => {
     setLocalQ('');
     setLocalCategory('');
@@ -105,36 +123,30 @@ const BusquedaPlatos = ({ setQ, setCategory, setDateFrom, setDateTo, setCity, se
         </div>
 
         <div>
-          <h4 className="text-sm font-medium text-gray-700 mb-3">Fecha de publicación</h4>
+          <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Fecha de publicación</h4>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <div>
-              <label htmlFor="dateFrom" className="block text-xs text-gray-500 mb-1">Desde</label>
-              <input
-                id="dateFrom"
-                type="date"
-                value={localDateFrom}
-                onChange={(e) => setLocalDateFrom(e.target.value)}
-                className="block w-full rounded-md border border-gray-200 bg-white px-3.5 py-2 text-sm text-gray-800 shadow-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
-              />
-            </div>
-            <div>
-              <label htmlFor="dateTo" className="block text-xs text-gray-500 mb-1">Hasta</label>
-              <input
-                id="dateTo"
-                type="date"
-                value={localDateTo}
-                onChange={(e) => setLocalDateTo(e.target.value)}
-                className="block w-full rounded-md border border-gray-200 bg-white px-3.5 py-2 text-sm text-gray-800 shadow-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
-              />
-            </div>
+            <Input
+              label="Desde"
+              name="dateFrom"
+              type="date"
+              value={localDateFrom}
+              onChange={(e) => setLocalDateFrom(e.target.value)}
+            />
+            <Input
+              label="Hasta"
+              name="dateTo"
+              type="date"
+              value={localDateTo}
+              onChange={(e) => setLocalDateTo(e.target.value)}
+            />
           </div>
         </div>
 
-        <div className="flex items-center justify-between gap-3 pt-3 border-t border-gray-100">
+        <div className="flex items-center justify-between gap-3 pt-3 border-t border-gray-100 dark:border-gray-700">
           <button
             type="button"
             onClick={handleClear}
-            className="inline-flex items-center gap-2 rounded-md border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 active:scale-95 transition"
+            className="inline-flex items-center gap-2 rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 active:scale-95 transition"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7L5 21M5 7l14 14" />

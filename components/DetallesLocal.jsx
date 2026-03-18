@@ -90,13 +90,7 @@ const DetallesLocal = () => {
                   {local.description || 'Sin descripción disponible.'}
                 </p>
 
-                {/* horario inline */}
-                {local.hours && (
-                  <p className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-gray-700">
-                    <ClockIcon className="h-5 w-5 text-gray-500" aria-hidden="true" />
-                    {local.hours}
-                  </p>
-                )}
+           
 
                 {/* features */}
                 <dl className="mt-8 space-y-4 text-base text-gray-700">
@@ -178,35 +172,60 @@ const DetallesLocal = () => {
       </section>
 
       {/* Reseñas */}
-      {local.reviews && local.reviews.length > 0 && (
-        <section className="mx-auto max-w-7xl px-6 lg:px-8 pb-24">
-          <h2 className="text-2xl font-bold tracking-tight text-gray-900 mb-6">Reseñas</h2>
-          <ul role="list" className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {local.reviews.map((review) => (
-              <li key={review.id} className="rounded-lg border border-gray-100 bg-white p-4 shadow-sm">
-                <div className="flex items-start gap-4">
-                  <img
-                    alt={review.user?.name ? `Avatar de ${review.user.name}` : 'Avatar'}
-                    src={review.user?.avatar || "https://cdn-icons-png.flaticon.com/512/9131/9131478.png"}
-                    className="h-16 w-16 flex-shrink-0 rounded-full object-cover ring-1 ring-black/5"
-                  />
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="font-semibold text-gray-900">{review.user?.name || 'Usuario'}</p>
-                        <p className="text-xs text-gray-400">{review.date || ''}</p>
-                      </div>
-                      <Rating value={review.rating} readonly />
-                    </div>
-                    <p className="mt-2 text-sm text-gray-700">{review.comment}</p>
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
+ {local.reviews && local.reviews.length > 0 && (
+  <section className="mx-auto max-w-7xl px-6 lg:px-8 pb-24">
+    <h2 className="text-2xl font-bold tracking-tight text-gray-900 mb-8">
+      Reseñas de clientes
+    </h2>
+    <ul role="list" className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {local.reviews.map((review) => (
+        <li
+          key={review.id}
+          className="group relative rounded-xl border border-gray-100 bg-white p-5 shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+        >
+          {/* Pequeña decoración de comillas (opcional) */}
+          <div className="absolute top-3 right-3 text-4xl text-gray-100 select-none">“</div>
 
+          <div className="flex items-start gap-4">
+            {/* Avatar con borde sutil */}
+            <img
+              alt={review.user?.name ? `Avatar de ${review.user.name}` : 'Avatar'}
+              src={review.user?.avatar || "https://cdn-icons-png.flaticon.com/512/6861/6861326.png"}
+              className="h-14 w-14 flex-shrink-0 rounded-full object-cover ring-2 ring-white shadow-sm"
+            />
+            <div className="flex-1 min-w-0">
+              {/* Cabecera: nombre y fecha */}
+              <div className="flex items-center justify-between gap-2 flex-wrap">
+                <p className="font-semibold text-gray-900 truncate">
+                  {review.user?.name || 'Usuario'}
+                </p>
+                {review.date && (
+                  <p className="text-xs text-gray-400 whitespace-nowrap">
+                    {new Date(review.date).toLocaleDateString('es-ES', {
+                      year: 'numeric',
+                      month: 'short',
+                      day: 'numeric'
+                    })}
+                  </p>
+                )}
+              </div>
+
+              {/* Calificación con estrellas */}
+              <div className="mt-1">
+                <Rating value={review.rating} readonly className="text-yellow-400" />
+              </div>
+
+              {/* Comentario con fondo sutil y padding */}
+              <p className="mt-3 text-sm text-gray-700 bg-gray-50 p-3 rounded-lg italic">
+                {review.comment}
+              </p>
+            </div>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </section>
+)}
       <RestaurantRating id={local.id} name={local.name} setRefresh={setRefresh} />
     </>
   );

@@ -13,7 +13,7 @@ const ListadoPlatos = () => {
     const [user, setUser] = useState(null);
     const [token, setToken] = useState("");
     const [dishes, setDishes] = useState([]);
-       const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
 
     const [query, setQuery] = useState("");
     const [category, setCategory] = useState("");
@@ -23,26 +23,16 @@ const ListadoPlatos = () => {
     const [localId, setLocalId] = useState("");
 
 
-    useEffect(() => {
-        const u = localStorage.getItem("user");
-        if (u) {
-            setUser(JSON.parse(u));
-            const t = localStorage.getItem("token")
-            setToken(t);
-        } else {
-            router.push("/");
-        }
-    }, []);
 
 
 
     useEffect(() => {
         const fetchDishes = async () => {
-             setLoading(true);
+            setLoading(true);
             const data = await getDishes(query, category, dateFrom, dateTo, city, localId);
             console.log("dishes:", data.items);
             setDishes(data.items || []);
-                setLoading(false);
+            setLoading(false);
         };
         fetchDishes();
     }, [query, category, dateFrom, dateTo, city, localId]);
@@ -54,18 +44,24 @@ const ListadoPlatos = () => {
 
 
     return (
-        <div  id="ListadoPlatos">
+        <div id="ListadoPlatos">
             <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
                 <h2 className="text-2xl font-bold tracking-tight text-gray-900">
                     Listado de Platos
                 </h2>
 
                 <BusquedaPlatos
+                    q={query}
                     setQ={setQuery}
+                    category={category}
                     setCategory={setCategory}
+                    dateFrom={dateFrom}
                     setDateFrom={setDateFrom}
+                    dateTo={dateTo}
                     setDateTo={setDateTo}
+                    city={city}
                     setCity={setCity}
+                    localId={localId}
                     setLocalId={setLocalId}
                 />
 

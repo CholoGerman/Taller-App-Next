@@ -69,10 +69,8 @@ const DetallesPlato = () => {
       <section className=" from-gray-50 to-white py-12 sm:py-20">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-y-10 lg:grid-cols-2 lg:gap-x-12 items-start">
-            {/* LEFT - texto */}
             <div className="lg:pt-4">
               <div className="max-w-xl">
-                {/* chips arriba */}
                 <div className="flex flex-wrap gap-2 items-center">
                   {dish.category && (
                     <span className="inline-flex items-center gap-2 rounded-full bg-indigo-600 px-3 py-1 text-xs font-semibold text-white shadow-sm">
@@ -103,10 +101,7 @@ const DetallesPlato = () => {
                     <span className="text-gray-800">{dish.price ? `$${dish.price}` : 'Precio no informado'}</span>
                   </div>
 
-                  <div className="inline-flex items-center gap-2">
-                    <Rating value={dish.avgRating ?? 0} readonly />
-                    <span className="text-sm text-gray-600">{(dish.avgRating ?? 0).toFixed(1)}</span>
-                  </div>
+                 
                 </div>
 
                 {/* features list */}
@@ -164,35 +159,61 @@ const DetallesPlato = () => {
         </div>
       </section>
 
-      {/* Reseñas */}
-      {dish.reviews && dish.reviews.length > 0 && (
-        <section className="mx-auto max-w-7xl px-6 lg:px-8 pb-24">
-          <h2 className="text-2xl font-bold tracking-tight text-gray-900 mb-6">Reseñas</h2>
-          <ul role="list" className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {dish.reviews.map((review) => (
-              <li key={review.id} className="rounded-lg border border-gray-100 bg-white p-4 shadow-sm">
-                <div className="flex items-start gap-4">
-                  <img
-                    alt={review.user?.name ? `Avatar de ${review.user.name}` : 'Avatar'}
-                    src={review.user?.avatar || "https://cdn-icons-png.flaticon.com/512/9131/9131478.png"}
-                    className="h-14 w-14 flex-shrink-0 rounded-full object-cover ring-1 ring-black/5"
-                  />
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="font-semibold text-gray-900">{review.user?.name || 'Usuario'}</p>
-                        <p className="text-xs text-gray-400">{review.date || ''}</p>
-                      </div>
-                      <Rating value={review.rating} readonly />
-                    </div>
-                    <p className="mt-2 text-sm text-gray-700">{review.comment}</p>
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
+    {/* Reseñas */}
+{dish.reviews && dish.reviews.length > 0 && (
+  <section className="mx-auto max-w-7xl px-6 lg:px-8 pb-24">
+    <h2 className="text-2xl font-bold tracking-tight text-gray-900 mb-8">
+      Reseñas de clientes
+    </h2>
+    <ul role="list" className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {dish.reviews.map((review) => (
+        <li
+          key={review.id}
+          className="group relative rounded-xl border border-gray-100 bg-white p-5 shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+        >
+          {/* Comilla decorativa */}
+          <div className="absolute top-3 right-3 text-4xl text-gray-100 select-none">“</div>
+
+          <div className="flex items-start gap-4">
+            {/* Avatar con borde sutil */}
+            <img
+              alt={review.user?.name ? `Avatar de ${review.user.name}` : 'Avatar'}
+              src={review.user?.avatar || "https://cdn-icons-png.flaticon.com/512/6861/6861326.png"}
+              className="h-14 w-14 flex-shrink-0 rounded-full object-cover ring-2 ring-white shadow-sm"
+            />
+            <div className="flex-1 min-w-0">
+              {/* Cabecera: nombre y fecha */}
+              <div className="flex items-center justify-between gap-2 flex-wrap">
+                <p className="font-semibold text-gray-900 truncate">
+                  {review.user?.name || 'Usuario'}
+                </p>
+                {review.date && (
+                  <p className="text-xs text-gray-400 whitespace-nowrap">
+                    {new Date(review.date).toLocaleDateString('es-ES', {
+                      year: 'numeric',
+                      month: 'short',
+                      day: 'numeric'
+                    })}
+                  </p>
+                )}
+              </div>
+
+              {/* Calificación con estrellas amarillas */}
+              <div className="mt-1">
+                <Rating value={review.rating} readonly className="text-yellow-400" />
+              </div>
+
+              {/* Comentario con fondo suave */}
+              <p className="mt-3 text-sm text-gray-700 bg-gray-50 p-3 rounded-lg italic">
+                {review.comment}
+              </p>
+            </div>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </section>
+)}
 
       <PlatoRating id={dish.id} name={dish.name} setRefresh={setRefresh} />
     </>

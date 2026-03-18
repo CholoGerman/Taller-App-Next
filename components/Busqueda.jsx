@@ -1,48 +1,61 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Input from './input';
 import Select from './Select';
 
 const Busqueda = ({
+  query,
   setQuery,
+  type,
   setType,
+  priceRange,
   setPriceRange,
+  rating,
   setRating,
+  city,
   setCity,
+  zone,
   setZone
 }) => {
-  // Estados locales para controlar los inputs
-  const [localQuery, setLocalQuery] = useState('');
-  const [localType, setLocalType] = useState('');
-  const [localPriceRange, setLocalPriceRange] = useState('');
-  const [localRating, setLocalRating] = useState('');
-  const [localCity, setLocalCity] = useState('');
-  const [localZone, setLocalZone] = useState('');
+  const [localQuery, setLocalQuery] = useState(query || '');
+  const [localType, setLocalType] = useState(type || '');
+  const [localPriceRange, setLocalPriceRange] = useState(priceRange || '');
+  const [localRating, setLocalRating] = useState(rating || '');
+  const [localCity, setLocalCity] = useState(city || '');
+  const [localZone, setLocalZone] = useState(zone || '');
 
-  // Funciones que actualizan estado local y notifican al padre
-  const handleQueryChange = (e) => {
-    setLocalQuery(e.target.value);
-    setQuery(e.target.value);
+  useEffect(() => {
+    setLocalQuery(query || '');
+    setLocalType(type || '');
+    setLocalPriceRange(priceRange || '');
+    setLocalRating(rating || '');
+    setLocalCity(city || '');
+    setLocalZone(zone || '');
+  }, [query, type, priceRange, rating, city, zone]);
+
+  const handleApply = () => {
+    setQuery(localQuery);
+    setType(localType);
+    setPriceRange(localPriceRange);
+    setRating(localRating);
+    setCity(localCity);
+    setZone(localZone);
   };
-  const handleTypeChange = (e) => {
-    setLocalType(e.target.value);
-    setType(e.target.value);
-  };
-  const handlePriceRangeChange = (e) => {
-    setLocalPriceRange(e.target.value);
-    setPriceRange(e.target.value);
-  };
-  const handleRatingChange = (e) => {
-    setLocalRating(e.target.value);
-    setRating(e.target.value);
-  };
-  const handleCityChange = (e) => {
-    setLocalCity(e.target.value);
-    setCity(e.target.value);
-  };
-  const handleZoneChange = (e) => {
-    setLocalZone(e.target.value);
-    setZone(e.target.value);
+
+  const handleClear = () => {
+    setLocalQuery('');
+    setLocalType('');
+    setLocalPriceRange('');
+    setLocalRating('');
+    setLocalCity('');
+    setLocalZone('');
+
+    setQuery('');
+    setType('');
+    setPriceRange('');
+    setRating('');
+    setCity('');
+    setZone('');
   };
 
   return (
@@ -57,13 +70,13 @@ const Busqueda = ({
           name="query"
           type="text"
           value={localQuery}
-          onChange={handleQueryChange}
+          onChange={(e) => setLocalQuery(e.target.value)}
         />
 
         <Select
           name="type"
           value={localType}
-          onChange={handleTypeChange}
+          onChange={(e) => setLocalType(e.target.value)}
         >
           <option value="">Todos los tipos</option>
           <option value="RESTAURANTE">Restaurante</option>
@@ -76,7 +89,7 @@ const Busqueda = ({
         <Select
           name="priceRange"
           value={localPriceRange}
-          onChange={handlePriceRangeChange}
+          onChange={(e) => setLocalPriceRange(e.target.value)}
         >
           <option value="">Todos los precios</option>
           <option value="ECONOMICO">Económico</option>
@@ -89,7 +102,7 @@ const Busqueda = ({
           name="rating"
           type="text"
           value={localRating}
-          onChange={handleRatingChange}
+          onChange={(e) => setLocalRating(e.target.value)}
         />
 
         <Input
@@ -97,7 +110,7 @@ const Busqueda = ({
           name="city"
           type="text"
           value={localCity}
-          onChange={handleCityChange}
+          onChange={(e) => setLocalCity(e.target.value)}
         />
 
         <Input
@@ -105,8 +118,28 @@ const Busqueda = ({
           name="zone"
           type="text"
           value={localZone}
-          onChange={handleZoneChange}
+          onChange={(e) => setLocalZone(e.target.value)}
         />
+      </div>
+
+      <div className="flex items-center justify-between gap-3 pt-3 border-t border-gray-100 dark:border-gray-700 mt-4">
+        <button
+          type="button"
+          onClick={handleClear}
+          className="inline-flex items-center gap-2 rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 active:scale-95 transition"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7L5 21M5 7l14 14" />
+          </svg>
+          Limpiar filtros
+        </button>
+        <button
+          type="button"
+          onClick={handleApply}
+          className="inline-flex items-center gap-2 rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 active:scale-95 transition"
+        >
+          Aplicar filtros
+        </button>
       </div>
     </div>
   );

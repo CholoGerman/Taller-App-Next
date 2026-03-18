@@ -11,7 +11,7 @@ const Input = ({ label, name, type = 'text', defaultValue, onChange, ...props })
           id={name}
           defaultValue={defaultValue}
           onChange={onChange}
-          placeholder=" " /* Placeholder vacío para activar :not(:placeholder-shown) */
+          placeholder=" "
           autoComplete="off"
           className="input"
           {...props}
@@ -36,7 +36,7 @@ const StyledWrapper = styled.div`
     background: none;
     padding: 1rem;
     font-size: 1rem;
-    color: #f5f5f5;
+    color:rgb(0, 0, 0);
     transition: border 150ms cubic-bezier(0.4, 0, 0.2, 1);
     width: 100%;
     box-sizing: border-box;
@@ -60,7 +60,7 @@ const StyledWrapper = styled.div`
   .input:focus ~ label,
   .input:not(:placeholder-shown) ~ label {
     transform: translateY(-50%) scale(0.8);
-    background-color: #212121;
+    background-color:rgb(238, 238, 238);
     padding: 0 0.2em;
     color: #2196f3;
   }

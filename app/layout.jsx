@@ -1,8 +1,6 @@
-import  { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Pattern from "../components/Pattern";
-// import 'bootstrap/dist/css/bootstrap.min.css';
+import PatternWrapper from "../components/PatternWrapper"; 
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,16 +22,16 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <head>
         <link
-  href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
-  rel="stylesheet"
-/>
+          href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
+          rel="stylesheet"
+        />
       </head>
       <body>
-        <Pattern>
+        <PatternWrapper>
           <div className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
             {children}
           </div>
-        </Pattern>
+        </PatternWrapper>
       </body>
     </html>
   );

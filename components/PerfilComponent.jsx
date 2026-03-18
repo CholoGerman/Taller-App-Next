@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
+import { useRouter } from "next/navigation";
 import { getUser } from '../api/api';
 import { useParams } from 'next/navigation';
 import Alert from '@mui/material/Alert';
@@ -9,12 +10,27 @@ import PlatoCard from './PlatoCard';
 import ProfileCard from './ProfileCard';
 
 export default function PerfilComponent() {
+  const router = useRouter();
+    const [token, setToken] = useState("");
 
   const params = useParams();
   const [user, setUser] = useState({});
   const [locals, setLocals] = useState([]);
   const [dishes, setDishes] = useState([]);
   const [error, setError] = useState("");
+
+
+ useEffect(() => {
+    const u = localStorage.getItem("user");
+    if (u) {
+      setUser(JSON.parse(u));
+      const t = localStorage.getItem("token");
+      setToken(t);
+    } else {
+      router.push("/");
+    }
+  }, [router]);
+
 
   useEffect(() => {
 

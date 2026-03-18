@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { register } from "../../api/api";
 import FormRegister from "../../components/FormRegister";
+import PatronVerde from "../../components/PatronVerde"; 
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -40,23 +41,26 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <FormRegister
-        name={name}
-        username={username}
-        password={password}
-        onNameChange={(e) => setName(e.target.value)}
-        onUsernameChange={(e) => setUsername(e.target.value)}
-        onPasswordChange={(e) => setPassword(e.target.value)}
-        onSubmit={handleRegister}
-        onSignIn={handleSignIn}
-        loading={loading}
-      />
-      {mensaje && (
-        <div className="absolute bottom-4 text-center text-sm text-red-500">
-          {mensaje}
-        </div>
-      )}
+    <div className="relative min-h-screen w-full overflow-hidden bg-black">
+      <PatronVerde className="absolute inset-0" />
+      <div className="relative z-10 flex items-center justify-center min-h-screen">
+        <FormRegister
+          name={name}
+          username={username}
+          password={password}
+          onNameChange={(e) => setName(e.target.value)}
+          onUsernameChange={(e) => setUsername(e.target.value)}
+          onPasswordChange={(e) => setPassword(e.target.value)}
+          onSubmit={handleRegister}
+          onSignIn={handleSignIn}
+          loading={loading}
+        />
+        {mensaje && (
+          <div className="absolute bottom-4 left-0 right-0 text-center text-sm text-red-500 z-20">
+            {mensaje}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
