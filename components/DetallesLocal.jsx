@@ -53,14 +53,11 @@ const DetallesLocal = () => {
 
   return (
     <>
-      {/* HERO / INFO */}
       <section className="bg-gradient-to-b from-gray-50 overflow-hidden py-16 sm:py-24">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto grid max-w-2xl grid-cols-1 gap-y-12 lg:mx-0 lg:max-w-none lg:grid-cols-2 lg:items-center">
-            {/* LEFT - Texto */}
             <div className="lg:pr-8">
               <div className="lg:max-w-lg">
-                {/* chips */}
                 <div className="flex flex-wrap gap-2">
                   {local.category && (
                     <span className="inline-flex items-center gap-2 rounded-full bg-indigo-50 px-3 py-1 text-sm font-medium text-indigo-700 ring-1 ring-indigo-100">
@@ -80,19 +77,16 @@ const DetallesLocal = () => {
                   )}
                 </div>
 
-                {/* título */}
                 <h1 className="mt-6 text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">
                   {local.name || 'Nombre del local'}
                 </h1>
 
-                {/* descripción */}
                 <p className="mt-6 text-lg leading-8 text-gray-600">
                   {local.description || 'Sin descripción disponible.'}
                 </p>
 
            
 
-                {/* features */}
                 <dl className="mt-8 space-y-4 text-base text-gray-700">
                   {features.map((feature) => (
                     <div key={feature.name} className="flex items-start gap-4">
@@ -106,7 +100,6 @@ const DetallesLocal = () => {
                     </div>
                   ))}
 
-                  {/* perfil del creador (Link sin <a>) */}
                   <div className="mt-2">
                     <Link
                       href={`/perfil/${local.creatorId || ''}`}
@@ -124,7 +117,6 @@ const DetallesLocal = () => {
               </div>
             </div>
 
-            {/* RIGHT - Imagen */}
             <div className="relative mt-8 lg:mt-0">
               <div className="overflow-hidden rounded-2xl shadow-2xl ring-1 ring-black/5">
                 <img
@@ -143,7 +135,6 @@ const DetallesLocal = () => {
         </div>
       </section>
 
-      {/* Sección de platos */}
       <section className="mx-auto max-w-7xl px-6 lg:px-8 pb-24">
         {loadingDishes ? (
           <div className="py-12">
@@ -171,7 +162,6 @@ const DetallesLocal = () => {
         )}
       </section>
 
-      {/* Reseñas */}
  {local.reviews && local.reviews.length > 0 && (
   <section className="mx-auto max-w-7xl px-6 lg:px-8 pb-24">
     <h2 className="text-2xl font-bold tracking-tight text-gray-900 mb-8">
@@ -183,18 +173,15 @@ const DetallesLocal = () => {
           key={review.id}
           className="group relative rounded-xl border border-gray-100 bg-white p-5 shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
         >
-          {/* Pequeña decoración de comillas (opcional) */}
           <div className="absolute top-3 right-3 text-4xl text-gray-100 select-none">“</div>
 
           <div className="flex items-start gap-4">
-            {/* Avatar con borde sutil */}
             <img
               alt={review.user?.name ? `Avatar de ${review.user.name}` : 'Avatar'}
               src={review.user?.avatar || "https://cdn-icons-png.flaticon.com/512/6861/6861326.png"}
               className="h-14 w-14 flex-shrink-0 rounded-full object-cover ring-2 ring-white shadow-sm"
             />
             <div className="flex-1 min-w-0">
-              {/* Cabecera: nombre y fecha */}
               <div className="flex items-center justify-between gap-2 flex-wrap">
                 <p className="font-semibold text-gray-900 truncate">
                   {review.user?.name || 'Usuario'}
@@ -210,12 +197,10 @@ const DetallesLocal = () => {
                 )}
               </div>
 
-              {/* Calificación con estrellas */}
               <div className="mt-1">
                 <Rating value={review.rating} readonly className="text-yellow-400" />
               </div>
 
-              {/* Comentario con fondo sutil y padding */}
               <p className="mt-3 text-sm text-gray-700 bg-gray-50 p-3 rounded-lg italic">
                 {review.comment}
               </p>

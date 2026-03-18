@@ -41,9 +41,7 @@ const login = async (username, password) => {
 
 const getLocals = async (q = "", type = "", priceRange = "", rating = "", city = "", zone = "") => {
     const data = await fetch(`${BASE_URL}/api/locals?q=${q}&type=${type}&priceRange=${priceRange}&rating=${rating}&city=${city}&zone=${zone}`).then(res => res.json());
-
     return data;
-
 }
 
 const getDishes = async (q = "", category = "", dateFrom = "", dateTo = "", city = "",  localId = "") => {

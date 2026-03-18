@@ -7,11 +7,10 @@ const LocalCard = ({ local }) => {
     local.photos?.[0] ||
     "https://aramar.com/wp-content/uploads/2017/05/aramar-suministros-para-el-vidrio-cristal-sin-imagen-disponible.jpg";
 
-  const rating = local.rating ? Number(local.rating).toFixed(1) : null;
+  const rating = local.ratingAverage ? Number(local.ratingAverage).toFixed(1) : null;
 
   return (
     <div className="group relative flex flex-col overflow-hidden rounded-2xl bg-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
-      {/* Imagen con overlay y badge de tipo */}
       <div className="relative h-48 overflow-hidden">
         <img
           src={image}
@@ -25,24 +24,20 @@ const LocalCard = ({ local }) => {
         )}
       </div>
 
-      {/* Contenido */}
       <div className="flex flex-1 flex-col p-5">
         <h3 className="mb-1 text-xl font-bold text-gray-900 line-clamp-1">{local.name}</h3>
 
-        {/* Ubicación con icono */}
         <div className="mb-2 flex items-center text-sm text-gray-600">
           <MapPinIcon className="mr-1 h-4 w-4 text-gray-400" />
           <span className="line-clamp-1">{local.city || "Ubicación no disponible"}</span>
         </div>
 
-        {/* Descripción */}
         {local.description ? (
           <p className="mb-4 text-sm text-gray-600 line-clamp-2">{local.description}</p>
         ) : (
           <p className="mb-4 text-sm text-gray-600">Sin descripción disponible.</p>
         )}
 
-        {/* Fila inferior con calificación y botón */}
         <div className="mt-auto flex items-center justify-between">
           {rating ? (
             <div className="flex items-center gap-1 rounded-full bg-yellow-100 px-3 py-1 text-sm font-semibold text-yellow-700">

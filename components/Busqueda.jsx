@@ -10,8 +10,10 @@ const Busqueda = ({
   setType,
   priceRange,
   setPriceRange,
-  rating,
-  setRating,
+  minRating,
+  setMinRating,
+  maxRating,
+  setMaxRating,
   city,
   setCity,
   zone,
@@ -20,7 +22,8 @@ const Busqueda = ({
   const [localQuery, setLocalQuery] = useState(query || '');
   const [localType, setLocalType] = useState(type || '');
   const [localPriceRange, setLocalPriceRange] = useState(priceRange || '');
-  const [localRating, setLocalRating] = useState(rating || '');
+  const [localMinRating, setLocalMinRating] = useState(minRating || '');
+  const [localMaxRating, setLocalMaxRating] = useState(maxRating || '');
   const [localCity, setLocalCity] = useState(city || '');
   const [localZone, setLocalZone] = useState(zone || '');
 
@@ -28,16 +31,18 @@ const Busqueda = ({
     setLocalQuery(query || '');
     setLocalType(type || '');
     setLocalPriceRange(priceRange || '');
-    setLocalRating(rating || '');
+    setLocalMinRating(minRating || '');
+    setLocalMaxRating(maxRating || '');
     setLocalCity(city || '');
     setLocalZone(zone || '');
-  }, [query, type, priceRange, rating, city, zone]);
+  }, [query, type, priceRange, minRating, maxRating, city, zone]);
 
   const handleApply = () => {
     setQuery(localQuery);
     setType(localType);
     setPriceRange(localPriceRange);
-    setRating(localRating);
+    setMinRating(localMinRating);
+    setMaxRating(localMaxRating);
     setCity(localCity);
     setZone(localZone);
   };
@@ -46,14 +51,16 @@ const Busqueda = ({
     setLocalQuery('');
     setLocalType('');
     setLocalPriceRange('');
-    setLocalRating('');
+    setLocalMinRating('');
+    setLocalMaxRating('');
     setLocalCity('');
     setLocalZone('');
 
     setQuery('');
     setType('');
     setPriceRange('');
-    setRating('');
+    setMinRating('');
+    setMaxRating('');
     setCity('');
     setZone('');
   };
@@ -97,13 +104,29 @@ const Busqueda = ({
           <option value="ALTO">Alto</option>
         </Select>
 
-        <Input
-          label="Calificación (1-5)"
-          name="rating"
-          type="text"
-          value={localRating}
-          onChange={(e) => setLocalRating(e.target.value)}
-        />
+        {/* Dos inputs para el rango de calificación */}
+        <div className="grid grid-cols-2 gap-2">
+          <Input
+            label="Mínimo"
+            name="minRating"
+            type="number"
+            min="0"
+            max="5"
+            step="0.1"
+            value={localMinRating}
+            onChange={(e) => setLocalMinRating(e.target.value)}
+          />
+          <Input
+            label="Máximo"
+            name="maxRating"
+            type="number"
+            min="0"
+            max="5"
+            step="0.1"
+            value={localMaxRating}
+            onChange={(e) => setLocalMaxRating(e.target.value)}
+          />
+        </div>
 
         <Input
           label="Ciudad"
